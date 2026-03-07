@@ -17,7 +17,7 @@ export default function Navbar() {
     "relative px-4 py-2 text-sm font-semibold text-red-500 rounded-lg after:absolute after:bottom-0 after:left-4 after:right-4 after:h-0.5 after:bg-red-500 after:rounded-full";
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-xs">
+    <nav className="sticky top-0 z-50 bg-white/95 bg-linear-to-br from-white/95 via-white to-red-50 backdrop-blur-md border-b border-gray-100">
       {/* Main Bar */}
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
         {/* Logo */}
