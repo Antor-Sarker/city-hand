@@ -8,7 +8,7 @@ export default function HeroSection() {
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 sm:px-10 text-center">
         {/* Heading */}
-        <h1 className="text-[2.2rem] sm:text-5xl lg:text-[3.4rem] font-extrabold text-gray-900 leading-tight tracking-tight mb-5">
+        <h1 className="text-[1.8rem] sm:text-3xl lg:text-[2.5rem] font-extrabold text-gray-900 leading-tight tracking-tight mb-5">
           Find Trusted Home Service{" "}
           <span className="text-red-600">Instantly</span>
         </h1>
@@ -23,7 +23,7 @@ export default function HeroSection() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-8 py-3 rounded-lg transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-red-200 hover:shadow-red-300"
+            className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-6 py-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-red-200 hover:shadow-red-300"
           >
             Get Started
             <svg
@@ -42,7 +42,7 @@ export default function HeroSection() {
           </Link>
           <Link
             href="/services"
-            className="inline-flex items-center font-semibold text-sm px-8 py-3 rounded-lg border-[1.5px] border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-200 hover:-translate-y-0.5"
+            className="inline-flex items-center font-semibold text-sm px-6 py-2 rounded-lg border-[1.5px] border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-200 hover:-translate-y-0.5"
           >
             View Services
           </Link>

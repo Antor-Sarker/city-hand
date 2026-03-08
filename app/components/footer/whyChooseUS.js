@@ -82,11 +82,11 @@ export default function WhyChooseUs() {
     <section className="bg-white py-24 px-4 overflow-hidden">
       <div className="relative max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-16">
+        <div className="mb-8">
           <span className="inline-flex items-center gap-2 text-red-500 text-xs font-semibold tracking-[0.25em] uppercase mb-4">
             <span className="w-8 h-px bg-red-500 inline-block" /> Our Advantage
           </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
+          <h2 className="text-base md:text-xl font-extrabold text-gray-900 leading-tight">
             Why Clients <span className="text-red-600">Choose Us</span>
           </h2>
           <p className="mt-4 text-gray-500 text-base max-w-lg leading-relaxed">

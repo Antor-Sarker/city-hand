@@ -1,10 +1,13 @@
+import Category from "./components/category/category";
+import WhyChooseUs from "./components/footer/whyChooseUS";
 import HeroSection from "./components/header/hero/hero";
 
 export default function Home() {
   return (
     <div>
       <HeroSection />
-      <h1>home page</h1>
+      <Category />
+      <WhyChooseUs />
     </div>
   );
 }

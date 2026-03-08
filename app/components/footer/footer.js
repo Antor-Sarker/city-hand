@@ -1,5 +1,4 @@
 import Link from "next/link";
-import WhyChooseUs from "./whyChooseUS";
 
 const navLinks = [
   { label: "Services", href: "/services" },
@@ -42,7 +41,6 @@ const socials = [
 export default function Footer() {
   return (
     <>
-      <WhyChooseUs />
       <footer className="bg-white border-t border-red-100">
         <div className="max-w-6xl mx-auto px-4 py-12">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
