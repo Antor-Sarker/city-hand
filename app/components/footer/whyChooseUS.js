@@ -79,7 +79,7 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section className="bg-white py-24 px-4 overflow-hidden">
+    <section className="bg-white py-20 px-4 overflow-hidden">
       <div className="relative max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
