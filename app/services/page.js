@@ -19,7 +19,7 @@ const services = [
     categoryLabel: "Appliance Repair",
     price: "From ৳500",
     description:
-      "Expert diagnosis and repair for all major appliance brands. Fast turnaround guaranteed.",
+      "Professional repair service for AC & refrigerators of all major brands. Our technicians diagnose cooling issues, gas leakage, compressor problems and electrical faults to restore optimal performance quickly and safely.",
     image:
       "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&q=80",
   },
@@ -30,7 +30,7 @@ const services = [
     categoryLabel: "Appliance Repair",
     price: "From ৳400",
     description:
-      "Complete washing machine repair, drum replacement, motor fix and maintenance.",
+      "Reliable washing machine repair and maintenance service including drum issues, drainage problems, motor repair and control board troubleshooting for both front-load and top-load machines",
     image:
       "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=600&q=80",
   },
@@ -41,7 +41,7 @@ const services = [
     categoryLabel: "Electrical Services",
     price: "From ৳800",
     description:
-      "Safe, certified electrical wiring services for homes, apartments and commercial spaces.",
+      "Safe and certified electrical wiring solutions for new homes and renovation projects. Our electricians ensure proper load distribution, quality materials and compliance with safety standards.",
     image:
       "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
   },
@@ -52,9 +52,9 @@ const services = [
     categoryLabel: "Electrical Services",
     price: "From ৳1,200",
     description:
-      "Panel upgrades, circuit breaker installation, load balancing and electrical safety checks.",
+      "Installation and maintenance of circuit breakers and electrical panels to ensure safe power distribution. Ideal for panel upgrades, load balancing and preventing electrical hazards.",
     image:
-      "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=600&q=80",
+      "https://images.unsplash.com/photo-1758101755915-462eddc23f57?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: 5,
@@ -63,7 +63,7 @@ const services = [
     categoryLabel: "Plumbing Services",
     price: "From ৳350",
     description:
-      "Emergency and scheduled pipe repair, leak detection and water pressure optimization.",
+      "Fast and reliable plumbing repair for leaking pipes, blocked lines and low water pressure. Our plumbers detect hidden leaks and fix them efficiently to prevent water damage.",
     image:
       "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600&q=80",
   },
@@ -74,7 +74,7 @@ const services = [
     categoryLabel: "Plumbing Services",
     price: "From ৳600",
     description:
-      "Complete bathroom fixture installation — toilets, showers, basins, water heaters.",
+      "Professional installation of bathroom fixtures including toilets, basins, showers, faucets and water heaters. We ensure proper alignment, leak-free connections and long-lasting performance.",
     image:
       "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80",
   },
@@ -85,7 +85,7 @@ const services = [
     categoryLabel: "Cleaning Services",
     price: "From ৳1,500",
     description:
-      "Full apartment deep clean — floors, kitchen, bathrooms, windows and furniture.",
+      "Comprehensive deep cleaning service for apartments and houses including floors, kitchen areas, bathrooms, windows and furniture surfaces using professional equipment and safe cleaning solutions.",
     image:
       "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&q=80",
   },
@@ -96,9 +96,9 @@ const services = [
     categoryLabel: "Cleaning Services",
     price: "From ৳800",
     description:
-      "Professional steam cleaning and stain removal for sofas, carpets and upholstery.",
+      "Advanced steam cleaning and stain removal service for sofas, carpets and upholstered furniture. We remove dust, bacteria and odors while restoring fabric freshness.",
     image:
-      "https://images.unsplash.com/photo-1558618047-f4e70e4c3b4e?w=600&q=80",
+      "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: 9,
@@ -107,9 +107,9 @@ const services = [
     categoryLabel: "Installation & Security",
     price: "From ৳2,500",
     description:
-      "HD CCTV camera setup with remote viewing, motion detection and night vision.",
+      "Complete CCTV camera installation with HD surveillance, night vision and remote monitoring through mobile devices. Perfect for home, office and shop security.",
     image:
-      "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&q=80",
+      "https://images.unsplash.com/photo-1589935447067-5531094415d1?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: 10,
@@ -118,9 +118,9 @@ const services = [
     categoryLabel: "Installation & Security",
     price: "From ৳1,800",
     description:
-      "Digital smart lock installation, access control systems and door reinforcement.",
+      "Upgrade your home security with digital smart locks and advanced door protection systems. Includes installation, configuration and access control setup.",
     image:
-      "https://images.unsplash.com/photo-1558002038-bb4237b50b11?w=600&q=80",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: 11,
@@ -129,9 +129,9 @@ const services = [
     categoryLabel: "IT & Tech Support",
     price: "From ৳500",
     description:
-      "Hardware repair, OS installation, virus removal, data recovery and performance tuning.",
+      "Professional computer troubleshooting and repair including hardware replacement, operating system installation, virus removal and performance optimization.",
     image:
-      "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=600&q=80",
+      "https://images.unsplash.com/photo-1604754742629-3e5728249d73?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: 12,
@@ -140,9 +140,9 @@ const services = [
     categoryLabel: "IT & Tech Support",
     price: "From ৳700",
     description:
-      "Home and office WiFi installation, router config, range extenders and LAN cabling.",
+      "Complete home and office networking solutions including router setup, WiFi coverage optimization, LAN cabling and secure network configuration.",
     image:
-      "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=600&q=80",
+      "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: 13,
@@ -151,9 +151,9 @@ const services = [
     categoryLabel: "Moving & Relocation",
     price: "From ৳3,000",
     description:
-      "Safe and professional home relocation with packing, loading, transport and unloading.",
+      "Safe and hassle-free home relocation service including packing, loading, transportation and unloading. Our team ensures your belongings are moved securely and on time.",
     image:
-      "https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=600&q=80",
+      "https://images.unsplash.com/photo-1721044167702-5de0b8fdb109?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: 14,
@@ -162,9 +162,9 @@ const services = [
     categoryLabel: "Moving & Relocation",
     price: "From ৳5,000",
     description:
-      "Complete office moving — furniture dismantling, packing, IT setup at new location.",
+      "Efficient office relocation service covering furniture dismantling, packing, transportation and reinstallation of office equipment at the new workspace.",
     image:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80",
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: 15,
@@ -173,10 +173,12 @@ const services = [
     categoryLabel: "Installation & Security",
     price: "From ৳1,000",
     description:
-      "Split AC, window AC installation, gas refill, coil cleaning and annual maintenance.",
+      "Professional AC installation and maintenance including split and window units. Service includes gas refill, coil cleaning, electrical check and performance optimization.",
     image:
-      "https://images.unsplash.com/photo-1631017283776-e2a7a8aa3de5?w=600&q=80",
+      "https://images.unsplash.com/photo-1722131646940-b821a6cc6252?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
+
+  
 ];
 
 function ServiceCard({ service }) {
