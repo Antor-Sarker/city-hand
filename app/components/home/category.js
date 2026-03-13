@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const categories = [
   {
-    id: 1,
+    id: "appliance",
     title: "Appliance Repair",
     subtitle: "AC, Fridge & More",
     services: "4+",
@@ -26,7 +26,7 @@ const categories = [
     ),
   },
   {
-    id: 2,
+    id: "electrical",
     title: "Electrical Services",
     subtitle: "Wiring, Installation & More",
     services: "3+",
@@ -47,7 +47,7 @@ const categories = [
     ),
   },
   {
-    id: 3,
+    id: "plumbing",
     title: "Plumbing Services",
     subtitle: "Pipes, Leaks & Drains",
     services: "3+",
@@ -70,7 +70,7 @@ const categories = [
     ),
   },
   {
-    id: 4,
+    id: "cleaning",
     title: "Cleaning Services",
     subtitle: "Home, Office & Deep Clean",
     services: "5+",
@@ -91,7 +91,7 @@ const categories = [
     ),
   },
   {
-    id: 5,
+    id: "installation",
     title: "Installation & Security",
     subtitle: "CCTV, Locks & Setup",
     services: "2+",
@@ -112,7 +112,7 @@ const categories = [
     ),
   },
   {
-    id: 6,
+    id: "it",
     title: "IT & Tech Support",
     subtitle: "Network, PC & Software",
     services: "3+",
@@ -133,7 +133,7 @@ const categories = [
     ),
   },
   {
-    id: 7,
+    id: "moving",
     title: "Moving & Relocation",
     subtitle: "Packing, Home Shifting & More",
     services: "2+",
@@ -181,7 +181,7 @@ export default function Category() {
             const isHovered = hovered === cat?.id;
             return (
               <Link
-                href="/services"
+                href={`/services?category=${cat.id}`}
                 key={cat?.id}
                 onMouseEnter={() => setHovered(cat?.id)}
                 onMouseLeave={() => setHovered(null)}
@@ -257,7 +257,7 @@ export default function Category() {
 
           {/* View All card */}
           <Link
-            href="/services"
+            href="/services?category=all"
             onMouseEnter={() => setHovered("all")}
             onMouseLeave={() => setHovered(null)}
             className={`

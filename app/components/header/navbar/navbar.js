@@ -69,7 +69,7 @@ export default function Navbar() {
             Home
           </Link>
           <Link
-            href="/services"
+            href="/services?category=all"
             className={
               pathName === "/services"
                 ? activeLinkStyle

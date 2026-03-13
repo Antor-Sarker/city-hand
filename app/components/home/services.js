@@ -1,59 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const services = [
-  {
-    id: 1,
-    title: "AC Repair",
-    image:
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&auto=format",
-    href: "/services/ac-repair",
-  },
-  {
-    id: 2,
-    title: "Home Deep Cleaning",
-    image:
-      "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop&auto=format",
-    href: "/services/home-deep-cleaning",
-  },
-  {
-    id: 3,
-    title: "CCTV Camera Installation",
-    image:
-      "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=400&h=300&fit=crop&auto=format",
-    href: "/services/cctv-installation",
-  },
-  {
-    id: 4,
-    title: "Home Shifting / Moving Service",
-    image:
-      "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=400&h=300&fit=crop&auto=format",
-    href: "/services/home-shifting",
-  },
-  {
-    id: 5,
-    title: "Water Filter Repair",
-    image:
-      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=300&fit=crop&auto=format",
-    href: "/services/water-filter-repair",
-  },
-  {
-    id: 6,
-    title: "Kitchen Cleaning",
-    image:
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop&auto=format",
-    href: "/services/kitchen-cleaning",
-  },
-  {
-    id: 7,
-    title: "Computer / Laptop Repair",
-    image:
-      "https://images.unsplash.com/photo-1588702547923-7093a6c3ba33?w=400&h=300&fit=crop&auto=format",
-    href: "/services/computer-repair",
-  },
-];
+export default async function HomeServices() {
+  const data = await fetch(`${process.env.API_BASE_URL}/services?category=all`);
+  const services = await data.json();
+  services.length = 7;
 
-export default function HomeServices() {
   return (
     <section className="w-full bg-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -74,8 +26,8 @@ export default function HomeServices() {
           {/* Service Cards */}
           {services?.map((service) => (
             <Link
-              key={service?.id}
-              href={service?.href}
+              key={service?._id}
+              href={`/services/${service?._id}`}
               className="group flex flex-col rounded-2xl overflow-hidden border border-gray-100 bg-white shadow-sm hover:shadow-md hover:border-red-200 hover:-translate-y-1 transition-all duration-200"
             >
               {/* Image */}
@@ -104,7 +56,7 @@ export default function HomeServices() {
 
           {/* See More Card */}
           <Link
-            href="/services"
+            href="/services?category=all"
             className="group flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50 hover:border-red-500 hover:bg-red-50 hover:-translate-y-1 transition-all duration-200 min-h-1/5 sm:min-h-2/6"
           >
             <span className="flex items-center justify-center w-11 h-11 rounded-full border-2 border-gray-200 text-gray-300 group-hover:border-red-500 group-hover:text-red-600 group-hover:bg-white transition-all duration-200">

@@ -22,7 +22,7 @@ export default function HeroSection() {
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
-            href="/services"
+            href="/services?category=all"
             className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-6 py-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-red-200 hover:shadow-red-300"
           >
             Get Started
@@ -41,7 +41,7 @@ export default function HeroSection() {
             </svg>
           </Link>
           <Link
-            href="/services"
+            href="/services?category=all"
             className="inline-flex items-center font-semibold text-sm px-6 py-2 rounded-lg border-[1.5px] border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-200 hover:-translate-y-0.5"
           >
             View Services
