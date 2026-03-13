@@ -2,14 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function HomeServices() {
-  const data = await fetch(
-    `${process.env.API_BASE_URL}/services?category=all`,
-    {
-      cache: "force-cache",
-    },
-  );
+  const data = await fetch("http://localhost:3000/api/services?category=all", {
+    cache: "force-cache",
+  });
 
-  const services = await data.json().slice(0, 7);
+  const services = (await data.json())?.slice(0, 7);
 
   return (
     <section className="w-full bg-white py-12 px-4 sm:px-6 lg:px-8">

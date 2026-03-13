@@ -57,7 +57,7 @@ function ServiceCard({ service }) {
 export default async function Services({ searchParams }) {
   const category = (await searchParams).category;
 
-  const data = await fetch(`${process.env.API_BASE_URL}/services`, {
+  const data = await fetch("http://localhost:3000/api/services", {
     cache: "force-cache",
   });
   const services = await data.json();

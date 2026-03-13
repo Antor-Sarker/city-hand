@@ -1,17 +1,35 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import SearchModal from "./searchResult";
 
-export default function Navbar() {
+export default function Navbar({ searchInput, setSearchInput }) {
   const [searchFocused, setSearchFocused] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchResult, setSearchResult] = useState(null);
+
+  const inputRef = useRef(null);
   const pathName = usePathname();
 
   // close mobile menu when change path name
   useEffect(() => {
     setMobileOpen(false);
   }, [pathName]);
+
+  async function handelSearch(input) {
+    const res = await fetch(
+      `http://localhost:3000/api/services?search=${input}`,
+    );
+    const results = await res.json();
+    setSearchResult(results);
+    setSearchInput(input);
+  }
+
+  function handelClearSearch() {
+    setSearchInput("");
+    inputRef.current.value = "";
+  }
 
   const activeLinkStyle =
     "relative px-4 py-2 text-sm font-semibold text-red-500 rounded-lg after:absolute after:bottom-0 after:left-4 after:right-4 after:h-0.5 after:bg-red-500 after:rounded-full";
@@ -52,6 +70,8 @@ export default function Navbar() {
             placeholder="Search services..."
             onFocus={() => setSearchFocused(true)}
             onBlur={() => setSearchFocused(false)}
+            onChange={(e) => handelSearch(e.target.value)}
+            ref={inputRef}
             className="w-full pl-9 pr-4 py-2 text-sm bg-gray-100 border-2 border-transparent rounded-xl outline-none text-gray-800 placeholder-gray-400 transition-all duration-200 focus:bg-white focus:border-red-500 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.1)]"
           />
         </div>
@@ -158,6 +178,8 @@ export default function Navbar() {
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
             <input
+              onChange={(e) => handelSearch(e.target.value)}
+              ref={inputRef}
               type="text"
               placeholder="Search services..."
               className="w-full pl-9 pr-4 py-2.5 text-sm bg-gray-100 border-2 border-transparent rounded-xl outline-none placeholder-gray-400 transition-all duration-200 focus:bg-white focus:border-red-500"
@@ -212,6 +234,15 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
+      )}
+
+      {/* search results */}
+      {searchInput && (
+        <SearchModal
+          searchInput={searchInput}
+          searchResult={searchResult}
+          handelClearSearch={handelClearSearch}
+        />
       )}
     </nav>
   );
