@@ -4,7 +4,7 @@ export default function SearchModal({
   handelClearSearch,
 }) {
   return (
-    <div className="fixed flex justify-center left-auto md:left-1/12 xl:left-2/12 2xl:left-4/12  px-4  top-32 md:top-auto mb-2 z-50 backdrop-blur-md shadow-md shadow-amber-50 w-4/12">
+    <div className="fixed flex justify-center md:justify-start xl:left-2/12 2xl:left-4/12  px-4  top-32 md:top-auto mb-2 z-50 backdrop-blur-md shadow-md shadow-amber-50 w-full">
       <div className="w-full max-w-lg bg-white rounded-xl border border-gray-200 max-h-screen overflow-y-scroll shadow-lg">
         {/* Search bar */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
@@ -19,8 +19,11 @@ export default function SearchModal({
             <path d="m21 21-4.35-4.35" />
           </svg>
           <span className="flex-1 text-sm text-gray-500">{searchInput}</span>
-          <button onClick={handelClearSearch} className="text-xs text-gray-400">
-            Esc
+          <button
+            onClick={handelClearSearch}
+            className="text-md text-red-600 cursor-pointer"
+          >
+            Clear
           </button>
         </div>
 
@@ -42,6 +45,13 @@ export default function SearchModal({
             </span>
           </div>
         ))}
+
+        {searchResult?.length === 0 && (
+          <div className="text-center text-gray-600 p-4">
+            No services found for{" "}
+            <span className="bold text-red-800">{`"${searchInput}"`}</span>
+          </div>
+        )}
       </div>
     </div>
   );
