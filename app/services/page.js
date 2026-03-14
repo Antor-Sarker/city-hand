@@ -14,8 +14,11 @@ const categories = [
 
 function ServiceCard({ service }) {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-      <div className="relative h-48 overflow-hidden cursor-pointer">
+    <Link
+      href={`/services/${service?._id}`}
+      className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
+    >
+      <div className="relative h-48 overflow-hidden">
         <Image
           src={service?.image}
           alt={service?.title}
@@ -23,12 +26,6 @@ function ServiceCard({ service }) {
           className="object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
-
-        <div className="absolute top-3 right-3">
-          <span className="bg-white/90 backdrop-blur-sm text-red-600 hover:text-white hover:bg-red-600 text-xs font-semibold px-2.5 py-1 rounded-full border border-red-100 cursor-pointer">
-            {service?.categoryLabel}
-          </span>
-        </div>
       </div>
 
       <div className="p-4">
@@ -39,25 +36,23 @@ function ServiceCard({ service }) {
           {service?.description}
         </p>
 
-        <div className="flex items-center justify-between border-t border-gray-50 pt-3">
-          <div className="">
-            <span className="bg-white/90 backdrop-blur-sm text-red-600 text-xs font-semibold px-2.5 py-1 rounded-full border border-red-100">
-              {service?.price}
-            </span>
+        <div className="flex justify-between">
+          <div className="bg-white/90 backdrop-blur-sm text-red-600 text-xs font-semibold px-2.5 py-1 rounded-full border border-red-100">
+            {`from ৳${service?.price?.basic}`}
           </div>
-          <button className="bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-colors cursor-pointer">
-            Book Now
-          </button>
+          <div className="bg-white/90 backdrop-blur-sm text-red-600 text-xs font-semibold px-2.5 py-1 rounded-full border border-red-100">
+            {service?.categoryLabel}
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
 export default async function Services({ searchParams }) {
   const category = (await searchParams).category;
 
-  const data = await fetch("http://localhost:3000/api/services", {
+  const data = await fetch(`${process.env.API_BASE_URL}/api/services`, {
     cache: "force-cache",
   });
   const services = await data.json();

@@ -1,10 +1,19 @@
+import { useRouter } from "next/navigation";
+
 export default function SearchModal({
   searchInput,
   searchResult,
   handelClearSearch,
 }) {
+  const router = useRouter();
+
+  // navigate service details
+  function handelNavigate(id) {
+    router.push(`/services/${id}`);
+    handelClearSearch();
+  }
   return (
-    <div className="fixed flex justify-center md:justify-start xl:left-2/12 2xl:left-4/12  px-4  top-32 md:top-auto mb-2 z-50 backdrop-blur-md shadow-md shadow-amber-50 w-full">
+    <div className="fixed flex justify-center md:justify-start xl:left-2/12 2xl:left-4/12 px-4 top-32 md:top-auto mb-2 z-50 backdrop-blur-md shadow-sm shadow-amber-50 w-full">
       <div className="w-full max-w-lg bg-white rounded-xl border border-gray-200 max-h-screen overflow-y-scroll shadow-lg">
         {/* Search bar */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
@@ -30,6 +39,7 @@ export default function SearchModal({
         {/* Results */}
         {searchResult?.map((item) => (
           <div
+            onClick={() => handelNavigate(item?._id)}
             key={item._id}
             className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors"
           >

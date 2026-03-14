@@ -2,9 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function HomeServices() {
-  const data = await fetch("http://localhost:3000/api/services?category=all", {
-    cache: "force-cache",
-  });
+  const data = await fetch(`${process.env.API_BASE_URL}/api/services?category=all`);
 
   const services = (await data.json())?.slice(0, 7);
 
