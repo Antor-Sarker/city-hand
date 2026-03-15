@@ -2,12 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function HomeServices() {
-  //for production build time
-  if (process.env.NEXT_PHASE === "phase-production-build") return [];
-  
-  const data = await fetch(`${process.env.API_BASE_URL}/api/services?category=all`,{next:{revalidate:3600}});
-
-  const services = (await data.json())?.slice(0, 7);
+  let services = [];
+  if (process.env.NEXT_PHASE !== "phase-production-build") {
+    const data = await fetch(`${process.env.API_BASE_URL}/api/services`, {
+      next: { revalidate: 3600 },
+    });
+    services = (await data?.json())?.slice(0, 7);
+  }
 
   return (
     <section className="w-full bg-white py-12 px-4 sm:px-6 lg:px-8">

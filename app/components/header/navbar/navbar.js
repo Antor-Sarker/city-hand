@@ -18,12 +18,11 @@ export default function Navbar({ searchInput, setSearchInput }) {
   }, [pathName]);
 
   async function handelSearch(input) {
-    //for production build time
+    //for production build time 
     if (process.env.NEXT_PHASE === "phase-production-build") return [];
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/services?search=${input}`,
-      { next: { revalidate: 3600 } },
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/services?search=${input}`
     );
     const results = await res.json();
     setSearchResult(results);
