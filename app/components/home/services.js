@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function HomeServices() {
+  //for production build time
+  if (process.env.NEXT_PHASE === "phase-production-build") return [];
+  
   const data = await fetch(`${process.env.API_BASE_URL}/api/services?category=all`,{next:{revalidate:3600}});
 
   const services = (await data.json())?.slice(0, 7);

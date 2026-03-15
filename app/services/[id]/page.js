@@ -2,6 +2,10 @@ import Image from "next/image";
 
 export default async function ServiceDetails({ params }) {
   const { id } = await params;
+
+  // for production build time
+  if (process.env.NEXT_PHASE === "phase-production-build") return [];
+
   const res = await fetch(`${process.env.API_BASE_URL}/api/services?id=${id}`, {
     next: { revalidate: 3600 },
   });
