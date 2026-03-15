@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function HomeServices() {
-  const data = await fetch(`${process.env.API_BASE_URL}/api/services?category=all`);
+  const data = await fetch(`${process.env.API_BASE_URL}/api/services?category=all`,{next:{revalidate:3600}});
 
   const services = (await data.json())?.slice(0, 7);
 

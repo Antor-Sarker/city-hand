@@ -18,7 +18,10 @@ export default function Navbar({ searchInput, setSearchInput }) {
   }, [pathName]);
 
   async function handelSearch(input) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/services?search=${input}`);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/services?search=${input}`,
+      { next: { revalidate: 3600 } },
+    );
     const results = await res.json();
     setSearchResult(results);
     setSearchInput(input);
