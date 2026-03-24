@@ -3,9 +3,16 @@ import Link from "next/link";
 
 export default async function HomeServices() {
   let services = [];
-  if (process.env.NEXT_PHASE !== "phase-production-build") {
-    const data = await fetch(`${process.env.API_BASE_URL}/api/service`);
-    services = (await data?.json())?.slice(0, 7);
+  try {
+    const res = await fetch(`${process.env.API_BASE_URL}/api/service`, {
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) throw new Error("failed to fetch data");
+
+    const data = await res.json();
+    services = Array.isArray(data) ? data.slice(0, 7) : [];
+  } catch (error) {
+    console.log("failed to fetch data");
   }
 
   return (
