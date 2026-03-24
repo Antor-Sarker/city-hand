@@ -1,4 +1,5 @@
 "use client";
+import useDebounce from "@/hooks/useDebounce";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -8,8 +9,10 @@ export default function Navbar({ searchInput, setSearchInput }) {
   const [searchFocused, setSearchFocused] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchResult, setSearchResult] = useState(null);
+  const [onChangeInput, setOnChangeInput] = useState("");
 
   const inputRef = useRef(null);
+  const debouncedValue = useDebounce(onChangeInput, 500);
   const pathName = usePathname();
 
   // close mobile menu when change path name
@@ -17,14 +20,30 @@ export default function Navbar({ searchInput, setSearchInput }) {
     setMobileOpen(false);
   }, [pathName]);
 
-  async function handelSearch(input) {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/service?search=${input}`,
-    );
-    const results = await res.json();
-    setSearchResult(results);
-    setSearchInput(input);
-  }
+  // for debounce search
+  useEffect(() => {
+    if (!debouncedValue) {
+      setSearchResult(null);
+      setSearchInput("");
+      return;
+    }
+
+    // search services with debounce
+    (async function () {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/service?search=${debouncedValue}`,
+        );
+        if (!res.ok) throw new Error("failed to search data");
+
+        const results = await res.json();
+        setSearchResult(results);
+        setSearchInput(debouncedValue);
+      } catch (error) {
+        console.log("failed to fetch search data");
+      }
+    })();
+  }, [debouncedValue, setSearchInput]);
 
   function handelClearSearch() {
     setSearchInput("");
@@ -70,7 +89,7 @@ export default function Navbar({ searchInput, setSearchInput }) {
             placeholder="Search services..."
             onFocus={() => setSearchFocused(true)}
             onBlur={() => setSearchFocused(false)}
-            onChange={(e) => handelSearch(e.target.value)}
+            onChange={(e) => setOnChangeInput(e.target.value)}
             ref={inputRef}
             className="w-full pl-9 pr-4 py-2 text-sm bg-gray-100 border-2 border-transparent rounded-xl outline-none text-gray-800 placeholder-gray-400 transition-all duration-200 focus:bg-white focus:border-red-500 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.1)]"
           />
