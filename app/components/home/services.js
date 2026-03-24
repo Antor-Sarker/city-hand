@@ -4,9 +4,7 @@ import Link from "next/link";
 export default async function HomeServices() {
   let services = [];
   if (process.env.NEXT_PHASE !== "phase-production-build") {
-    const data = await fetch(`${process.env.API_BASE_URL}/api/services`, {
-      next: { revalidate: 3600 },
-    });
+    const data = await fetch(`${process.env.API_BASE_URL}/api/service`);
     services = (await data?.json())?.slice(0, 7);
   }
 

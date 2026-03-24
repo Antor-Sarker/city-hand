@@ -52,12 +52,7 @@ function ServiceCard({ service }) {
 export default async function Services({ searchParams }) {
   const category = (await searchParams).category;
 
-  //for production build time
-  if (process.env.NEXT_PHASE === "phase-production-build") return [];
-
-  const data = await fetch(`${process.env.API_BASE_URL}/api/services`, {
-    next: { revalidate: 3600 },
-  });
+  const data = await fetch(`${process.env.API_BASE_URL}/api/service`);
   const services = await data.json();
 
   const filteredSevices =
