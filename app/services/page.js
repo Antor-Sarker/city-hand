@@ -50,15 +50,26 @@ function ServiceCard({ service }) {
 }
 
 export default async function Services({ searchParams }) {
-  const category = (await searchParams).category;
+  let services = [];
+  let category = null;
 
-  const data = await fetch(`${process.env.API_BASE_URL}/api/service`);
-  const services = await data.json();
+  try {
+    category = (await searchParams).category;
+    const filterQuery =
+      category === "all" || !category ? "" : `?category=${category}`;
 
-  const filteredSevices =
-    category === "all"
-      ? services
-      : services.filter((item) => item.category === category);
+    const res = await fetch(
+      `${process.env.API_BASE_URL}/api/service${filterQuery}`,
+      {
+        next: { revalidate: 3600 },
+      },
+    );
+    if (!res.ok) throw new Error("failed to fetch services data");
+
+    services = await res.json();
+  } catch (error) {
+    console.log("failed to fetch services data");
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
@@ -146,7 +157,7 @@ export default async function Services({ searchParams }) {
                 <p className="text-sm text-gray-500 mt-0.5">
                   Showing{" "}
                   <span className="text-red-600 font-semibold">
-                    {filteredSevices?.length} services
+                    {services?.length} services
                   </span>{" "}
                   available
                 </p>
@@ -166,7 +177,7 @@ export default async function Services({ searchParams }) {
 
             {/*Service Cards Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-              {filteredSevices?.map((service) => (
+              {services?.map((service) => (
                 <ServiceCard key={service?._id} service={service} />
               ))}
             </div>
