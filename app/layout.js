@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import Footer from "./components/footer/footer";
+import Footer from "../components/footer/footer";
 import "./globals.css";
 import LayoutClient from "./layoutClient";
 

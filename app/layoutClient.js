@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Navbar from "./components/header/navbar/navbar";
+import Navbar from "../components/header/navbar/navbar";
 
 export default function LayoutClient({ children }) {
   const [searchInput, setSearchInput] = useState("");
