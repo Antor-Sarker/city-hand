@@ -18,6 +18,7 @@ export function AuthProvider({ children }) {
         );
 
         if (!res.ok) {
+          // should implement log out
           setAccessToken(null);
           throw new Error("auth error");
         }
@@ -25,6 +26,7 @@ export function AuthProvider({ children }) {
         const data = await res.json();
         setAccessToken(data.accessToken);
       } catch (error) {
+        setAccessToken(null);
         console.log("auth error");
       }
     };
