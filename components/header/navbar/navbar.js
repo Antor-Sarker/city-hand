@@ -15,7 +15,7 @@ export default function Navbar({ searchInput, setSearchInput }) {
 
   const inputRef = useRef(null);
   const debouncedValue = useDebounce(onChangeInput, 500);
-  const { userData } = useUserData();
+  const { userData, logOut } = useUserData();
   const pathName = usePathname();
 
   // close mobile menu when change path name
@@ -132,9 +132,9 @@ export default function Navbar({ searchInput, setSearchInput }) {
           </Link>
         </div>
 
-        {/* Auth Buttons or user menu*/}
+        {/* Auth Buttons or user menu for big screen*/}
         {userData ? (
-          <UserMenu userData={userData} />
+          <UserMenu userData={userData} logOut={logOut} />
         ) : (
           <div className="hidden sm:flex items-center gap-3 shrink-0">
             <Link
@@ -244,7 +244,7 @@ export default function Navbar({ searchInput, setSearchInput }) {
             My Booking
           </Link>
 
-          {/* Mobile Auth */}
+          {/* profile menu for Mobile*/}
           {userData ? (
             <>
               <Link
@@ -268,7 +268,10 @@ export default function Navbar({ searchInput, setSearchInput }) {
                 Dashboard
               </Link>
 
-              <button className="flex-1 py-2.5 px-5 w-max text-left text-sm font-semibold text-red-500 rounded-xl shadow-[0_2px_10px_rgba(239,68,68,0.25)] transition-all duration-200">
+              <button
+                className="flex-1 py-2.5 px-5 w-max text-left text-sm font-semibold text-red-500 rounded-xl shadow-[0_2px_10px_rgba(239,68,68,0.25)] transition-all duration-200"
+                onClick={() => logOut()}
+              >
                 Log out
               </button>
             </>

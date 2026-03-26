@@ -1,10 +1,12 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [userData, setUserData] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const refreshToken = async () => {
@@ -18,7 +20,6 @@ export function AuthProvider({ children }) {
         );
 
         if (!res.ok) {
-          // should implement log out and not redirect log in
           setUserData(null);
           throw new Error("auth error");
         }
@@ -37,8 +38,28 @@ export function AuthProvider({ children }) {
     setUserData(data);
   };
 
+  const logOut = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+        },
+      );
+
+      if (!res.ok) {
+        throw new Error("auth error");
+      }
+      setUserData(null);
+      router.push("/login");
+    } catch (error) {
+      console.log("auth error");
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ userData,saveUserData }}>
+    <AuthContext.Provider value={{ userData, saveUserData, logOut }}>
       {children}
     </AuthContext.Provider>
   );

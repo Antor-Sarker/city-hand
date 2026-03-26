@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import UserIcon from "./userIcon";
 
-export default function UserMenu({ userData }) {
+export default function UserMenu({ userData, logOut }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -68,7 +68,10 @@ export default function UserMenu({ userData }) {
           </Link>
 
           <div className="h-px bg-gray-100 my-1" />
-          <button className="w-full flex items-center gap-2 text-[13px] text-red-500 hover:text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
+          <button
+            className="w-full flex items-center gap-2 text-[13px] text-red-500 hover:text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+            onClick={() => logOut()}
+          >
             Logout
           </button>
         </div>
