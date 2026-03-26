@@ -1,9 +1,11 @@
 "use client";
+import { useUserData } from "@/context/authContex";
 import useDebounce from "@/hooks/useDebounce";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import SearchModal from "./searchResult";
+import UserMenu from "./userMenu";
 
 export default function Navbar({ searchInput, setSearchInput }) {
   const [searchFocused, setSearchFocused] = useState(false);
@@ -13,6 +15,7 @@ export default function Navbar({ searchInput, setSearchInput }) {
 
   const inputRef = useRef(null);
   const debouncedValue = useDebounce(onChangeInput, 500);
+  const { userData } = useUserData();
   const pathName = usePathname();
 
   // close mobile menu when change path name
@@ -129,21 +132,25 @@ export default function Navbar({ searchInput, setSearchInput }) {
           </Link>
         </div>
 
-        {/* Auth Buttons */}
-        <div className="hidden sm:flex items-center gap-3 shrink-0">
-          <Link
-            href="/login"
-            className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl hover:text-red-500 hover:border-red-400 hover:bg-red-50 transition-all duration-200"
-          >
-            Login
-          </Link>
-          <Link
-            href="/signup"
-            className="px-5 py-2 text-sm font-semibold text-white bg-red-500 rounded-xl shadow-[0_2px_10px_rgba(239,68,68,0.3)] hover:bg-red-600 hover:shadow-[0_4px_16px_rgba(239,68,68,0.4)] hover:-translate-y-px active:translate-y-0 transition-all duration-200"
-          >
-            Sign Up
-          </Link>
-        </div>
+        {/* Auth Buttons or user menu*/}
+        {userData ? (
+          <UserMenu userData={userData} />
+        ) : (
+          <div className="hidden sm:flex items-center gap-3 shrink-0">
+            <Link
+              href="/login"
+              className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl hover:text-red-500 hover:border-red-400 hover:bg-red-50 transition-all duration-200"
+            >
+              Login
+            </Link>
+            <Link
+              href="/signup"
+              className="px-5 py-2 text-sm font-semibold text-white bg-red-500 rounded-xl shadow-[0_2px_10px_rgba(239,68,68,0.3)] hover:bg-red-600 hover:shadow-[0_4px_16px_rgba(239,68,68,0.4)] hover:-translate-y-px active:translate-y-0 transition-all duration-200"
+            >
+              Sign Up
+            </Link>
+          </div>
+        )}
 
         {/* Mobile Hamburger Button*/}
         <button
@@ -238,20 +245,49 @@ export default function Navbar({ searchInput, setSearchInput }) {
           </Link>
 
           {/* Mobile Auth */}
-          <div className="flex gap-3 mt-3 pt-3 border-t border-gray-100">
-            <Link
-              href="/login"
-              className="flex-1 text-center py-2.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl hover:text-red-500 hover:border-red-400 transition-all duration-200"
-            >
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="flex-1 text-center py-2.5 text-sm font-semibold text-white bg-red-500 rounded-xl shadow-[0_2px_10px_rgba(239,68,68,0.25)] hover:bg-red-600 transition-all duration-200"
-            >
-              Sign Up
-            </Link>
-          </div>
+          {userData ? (
+            <>
+              <Link
+                href="/profile"
+                className={`px-3 py-3 text-sm rounded-xl ${
+                  pathName === "/profile"
+                    ? "font-semibold text-red-500 bg-red-50"
+                    : "font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
+                }`}
+              >
+                Profile
+              </Link>
+              <Link
+                href="/dashboard"
+                className={`px-3 py-3 text-sm rounded-xl ${
+                  pathName === "/dashboard"
+                    ? "font-semibold text-red-500 bg-red-50"
+                    : "font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
+                }`}
+              >
+                Dashboard
+              </Link>
+
+              <button className="flex-1 py-2.5 px-5 w-max text-left text-sm font-semibold text-red-500 rounded-xl shadow-[0_2px_10px_rgba(239,68,68,0.25)] transition-all duration-200">
+                Log out
+              </button>
+            </>
+          ) : (
+            <div className="flex gap-3 mt-3 pt-3 border-t border-gray-100">
+              <Link
+                href="/login"
+                className="flex-1 text-center py-2.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl hover:text-red-500 hover:border-red-400 transition-all duration-200"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="flex-1 text-center py-2.5 text-sm font-semibold text-white bg-red-500 rounded-xl shadow-[0_2px_10px_rgba(239,68,68,0.25)] hover:bg-red-600 transition-all duration-200"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
       )}
 

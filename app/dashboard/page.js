@@ -1,9 +1,10 @@
 "use client";
-import { useAuth } from "@/context/authContex";
+
+import { useUserData } from "@/context/authContex";
 
 export default function Dashboard() {
-  const { accessToken } = useAuth();
-  console.log(accessToken);
+  const {userData}=useUserData()
+  console.log(userData)
   return (
     <div>
       <h1>dashboard page</h1>

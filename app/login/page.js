@@ -1,7 +1,7 @@
 "use client";
 import FieldInput from "@/components/auth/fieldInput";
 import { authformFields } from "@/config/authFormField";
-import { useAuth } from "@/context/authContex";
+import { useUserData } from "@/context/authContex";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -16,7 +16,7 @@ export default function LogIn() {
     password: "",
   });
   const router = useRouter();
-  const { saveToken } = useAuth();
+  const { saveUserData } = useUserData()
 
   const handelOnChange = (event) => {
     setFormData({
@@ -50,7 +50,7 @@ export default function LogIn() {
       }
 
       const data = await res.json();
-      saveToken(data?.accessToken);
+      saveUserData(data)
       router.push("/dashboard");
     } catch (error) {
       console.log("failed to create account");

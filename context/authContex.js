@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [accessToken, setAccessToken] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const refreshToken = async () => {
@@ -18,30 +18,30 @@ export function AuthProvider({ children }) {
         );
 
         if (!res.ok) {
-          // should implement log out
-          setAccessToken(null);
+          // should implement log out and not redirect log in
+          setUserData(null);
           throw new Error("auth error");
         }
 
         const data = await res.json();
-        setAccessToken(data.accessToken);
+        setUserData(data);
       } catch (error) {
-        setAccessToken(null);
+        setUserData(null);
         console.log("auth error");
       }
     };
     refreshToken();
   }, []);
 
-  const saveToken = (token) => {
-    setAccessToken(token);
+  const saveUserData = (data) => {
+    setUserData(data);
   };
 
   return (
-    <AuthContext.Provider value={{ accessToken, saveToken }}>
+    <AuthContext.Provider value={{ userData,saveUserData }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export const useUserData = () => useContext(AuthContext);
