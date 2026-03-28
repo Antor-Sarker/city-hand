@@ -4,6 +4,7 @@ import useDebounce from "@/hooks/useDebounce";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import MobileMenu from "./mobileMenu";
 import SearchModal from "./searchResult";
 import UserMenu from "./userMenu";
 
@@ -71,7 +72,7 @@ export default function Navbar({ searchInput, setSearchInput }) {
           <span className="w-1.5 h-1.5 rounded-full bg-red-500 mb-1 ml-0.5" />
         </Link>
 
-        {/* Search */}
+        {/* Search for big screen*/}
         <div className="relative flex-1 max-w-xs hidden md:block">
           <svg
             className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-200 ${
@@ -98,7 +99,7 @@ export default function Navbar({ searchInput, setSearchInput }) {
           />
         </div>
 
-        {/* Nav Links */}
+        {/* Nav Links for big screen*/}
         <div className="hidden md:flex items-center gap-1">
           <Link
             href="/"
@@ -120,16 +121,30 @@ export default function Navbar({ searchInput, setSearchInput }) {
           >
             Services
           </Link>
-          <Link
-            href="/my-booking"
-            className={
-              pathName === "/my-booking"
-                ? activeLinkStyle
-                : "px-4 py-2 text-sm font-medium text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 transition-all duration-200"
-            }
-          >
-            My Booking
-          </Link>
+
+          {userData?.role === "admin" ? (
+            <Link
+              href="/admin/dashboard"
+              className={
+                pathName === "/admin/dashboard"
+                  ? activeLinkStyle
+                  : "px-4 py-2 text-sm font-medium text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              }
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <Link
+              href="/client/dashboard/my-booking"
+              className={
+                pathName === "/client/dashboard/my-booking"
+                  ? activeLinkStyle
+                  : "px-4 py-2 text-sm font-medium text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              }
+            >
+              My Booking
+            </Link>
+          )}
         </div>
 
         {/* Auth Buttons or user menu for big screen*/}
@@ -187,112 +202,7 @@ export default function Navbar({ searchInput, setSearchInput }) {
       </div>
 
       {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white px-5 py-4 flex flex-col gap-1">
-          {/* Mobile Search */}
-          <div className="relative mb-3">
-            <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              viewBox="0 0 24 24"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            <input
-              onChange={(e) => handelSearch(e.target.value)}
-              ref={inputRef}
-              type="text"
-              placeholder="Search services..."
-              className="w-full pl-9 pr-4 py-2.5 text-sm bg-gray-100 border-2 border-transparent rounded-xl outline-none placeholder-gray-400 transition-all duration-200 focus:bg-white focus:border-red-500"
-            />
-          </div>
-
-          {/* Mobile Nav Links */}
-          <Link
-            href="/"
-            className={`px-3 py-3 text-sm rounded-xl ${
-              pathName === "/"
-                ? "font-semibold text-red-500 bg-red-50"
-                : "font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
-            }`}
-          >
-            Home
-          </Link>
-          <Link
-            href="/services"
-            className={`px-3 py-3 text-sm rounded-xl ${
-              pathName === "/services"
-                ? "font-semibold text-red-500 bg-red-50"
-                : "font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
-            }`}
-          >
-            Services
-          </Link>
-          <Link
-            href="/my-booking"
-            className={`px-3 py-3 text-sm rounded-xl ${
-              pathName === "/my-booking"
-                ? "font-semibold text-red-500 bg-red-50"
-                : "font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
-            }`}
-          >
-            My Booking
-          </Link>
-
-          {/* profile menu for Mobile*/}
-          {userData ? (
-            <>
-              <Link
-                href="/profile"
-                className={`px-3 py-3 text-sm rounded-xl ${
-                  pathName === "/profile"
-                    ? "font-semibold text-red-500 bg-red-50"
-                    : "font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
-                }`}
-              >
-                Profile
-              </Link>
-              <Link
-                href="/dashboard"
-                className={`px-3 py-3 text-sm rounded-xl ${
-                  pathName === "/dashboard"
-                    ? "font-semibold text-red-500 bg-red-50"
-                    : "font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200"
-                }`}
-              >
-                Dashboard
-              </Link>
-
-              <button
-                className="flex-1 py-2.5 px-5 w-max text-left text-sm font-semibold text-red-500 rounded-xl shadow-[0_2px_10px_rgba(239,68,68,0.25)] transition-all duration-200"
-                onClick={() => logOut()}
-              >
-                Log out
-              </button>
-            </>
-          ) : (
-            <div className="flex gap-3 mt-3 pt-3 border-t border-gray-100">
-              <Link
-                href="/login"
-                className="flex-1 text-center py-2.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl hover:text-red-500 hover:border-red-400 transition-all duration-200"
-              >
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                className="flex-1 text-center py-2.5 text-sm font-semibold text-white bg-red-500 rounded-xl shadow-[0_2px_10px_rgba(239,68,68,0.25)] hover:bg-red-600 transition-all duration-200"
-              >
-                Sign Up
-              </Link>
-            </div>
-          )}
-        </div>
-      )}
+      {mobileOpen && <MobileMenu inputRef={inputRef} />}
 
       {/* search results */}
       {searchInput && (

@@ -53,7 +53,7 @@ export default function UserMenu({ userData, logOut }) {
 
           <Link
             onClick={() => setOpen(false)}
-            href={"/profile"}
+            href={`${userData?.role === "client" ? "/client/dashboard/profile" : "/admin/dashboard/profile"}`}
             className="flex items-center gap-2 text-[13px] text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-3 py-1.5 rounded-lg transition-colors"
           >
             Profile
@@ -61,7 +61,11 @@ export default function UserMenu({ userData, logOut }) {
 
           <Link
             onClick={() => setOpen(false)}
-            href={"/dashboard"}
+            href={`${
+              userData?.role === "client"
+                ? "/client/dashboard"
+                : "/admin/dashboard"
+            }`}
             className="flex items-center gap-2 text-[13px] text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-3 py-1.5 rounded-lg transition-colors"
           >
             Dashboard

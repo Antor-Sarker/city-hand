@@ -16,7 +16,7 @@ export default function LogIn() {
     password: "",
   });
   const router = useRouter();
-  const { saveUserData } = useUserData()
+  const { saveUserData } = useUserData();
 
   const handelOnChange = (event) => {
     setFormData({
@@ -50,8 +50,10 @@ export default function LogIn() {
       }
 
       const data = await res.json();
-      saveUserData(data)
-      router.push("/dashboard");
+      saveUserData(data);
+      router.push(
+        data.role === "client" ? "/client/dashboard" : "/admin/dashboard",
+      );
     } catch (error) {
       console.log("failed to create account");
     }
