@@ -50,8 +50,8 @@ export default function Navbar({ searchInput, setSearchInput }) {
   }, [debouncedValue, setSearchInput]);
 
   function handelClearSearch() {
-    setSearchInput("");
     inputRef.current.value = "";
+    setSearchInput("");
   }
 
   const activeLinkStyle =
@@ -202,7 +202,9 @@ export default function Navbar({ searchInput, setSearchInput }) {
       </div>
 
       {/* Mobile Menu */}
-      {mobileOpen && <MobileMenu inputRef={inputRef} />}
+      {mobileOpen && (
+        <MobileMenu inputRef={inputRef} setOnChangeInput={setOnChangeInput} />
+      )}
 
       {/* search results */}
       {searchInput && (

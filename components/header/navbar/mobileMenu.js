@@ -2,7 +2,7 @@ import { useUserData } from "@/context/authContex";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function MobileMenu({ inputRef }) {
+export default function MobileMenu({ inputRef,setOnChangeInput }) {
   const { userData, logOut } = useUserData();
   const pathName = usePathname();
 
@@ -23,7 +23,7 @@ export default function MobileMenu({ inputRef }) {
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
         <input
-          onChange={(e) => handelSearch(e.target.value)}
+          onChange={(e) => setOnChangeInput(e.target.value)}
           ref={inputRef}
           type="text"
           placeholder="Search services..."
