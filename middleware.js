@@ -1,11 +1,28 @@
+import { jwtVerify } from "jose";
 import { NextResponse } from "next/server";
 
 export async function middleware(request) {
-  try {
-    const refreshToken = request.cookies.get("refreshToken")?.value;
+  const token = request.cookies.get("refreshToken")?.value;
+  if (!token) return NextResponse.redirect(new URL("/login", request.url));
 
-    if (!refreshToken)
+  try {
+    const secretCode = new TextEncoder().encode(
+      process.env.REFRESH_TOKEN_SECRET,
+    );
+    const { payload } = await jwtVerify(token, secretCode);
+    const { pathname } = request.nextUrl;
+
+    if (!payload?.role) {
       return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    if (pathname.startsWith("/admin") && !(payload?.role === "admin")) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    if (pathname.startsWith("/client") && !(payload?.role === "client")) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
 
     return NextResponse.next();
   } catch (error) {
@@ -15,5 +32,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/my-booking/:path*", "/dashboard/:path*", "/profile/:path*"],
+  matcher: ["/client/:path*", "/admin/:path*"],
 };
