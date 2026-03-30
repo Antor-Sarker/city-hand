@@ -20,13 +20,16 @@ export function AuthProvider({ children }) {
         );
 
         if (!res.ok) {
+          localStorage.removeItem("accessToken");
           setUserData(null);
           throw new Error("auth error");
         }
 
         const data = await res.json();
+        localStorage.setItem("accessToken", data.accessToken);
         setUserData(data);
       } catch (error) {
+        localStorage.removeItem("accessToken");
         setUserData(null);
         console.log("auth error");
       }
@@ -35,6 +38,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const saveUserData = (data) => {
+    localStorage.setItem("accessToken", data.accessToken);
     setUserData(data);
   };
 
@@ -51,6 +55,7 @@ export function AuthProvider({ children }) {
       if (!res.ok) {
         throw new Error("auth error");
       }
+      localStorage.removeItem("accessToken");
       setUserData(null);
       router.push("/login");
     } catch (error) {
