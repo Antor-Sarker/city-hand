@@ -1,4 +1,5 @@
 import { get5DigitId } from "@/utils/get5DigitId";
+import EmptyBooking from "./emptyBooking";
 import { EyeIcon, PencilIcon } from "./icons";
 
 const statusConfig = {
@@ -142,6 +143,9 @@ export default function BookingTable({ bookings }) {
           </div>
         ))}
       </div>
+
+      {/* when booking is empty */}
+      {bookings?.length === 0 && <EmptyBooking />}
     </>
   );
 }

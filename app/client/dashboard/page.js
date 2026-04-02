@@ -15,6 +15,7 @@ export default function Dashboard() {
       (async function () {
         const res = await api.get("/api/user/bookings");
         setBookingData(res?.data);
+        console.log(res)
       })();
     } catch (error) {
       console.log("booking data not found");
