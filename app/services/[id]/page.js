@@ -1,3 +1,4 @@
+import Booking from "@/components/service/bookingButton";
 import Image from "next/image";
 
 export default async function ServiceDetails({ params }) {
@@ -19,7 +20,7 @@ export default async function ServiceDetails({ params }) {
             <span className="inline-block bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-widest mb-4">
               {service?.categoryLabel}
             </span>
-            <h1 className="text-4xl sm:text-5xl font-black leading-tight mb-4">
+            <h1 className="text-3xl sm:text-4xl font-black leading-tight mb-4">
               {service?.title}
             </h1>
             <p className="text-red-100 text-base leading-relaxed mb-8 max-w-md">
@@ -30,7 +31,7 @@ export default async function ServiceDetails({ params }) {
                 <p className="text-red-200 text-xs uppercase tracking-widest mb-1">
                   Starting at
                 </p>
-                <p className="text-3xl font-black">
+                <p className="text-2xl font-black">
                   From ৳{service?.price?.basic}
                 </p>
               </div>
@@ -38,7 +39,7 @@ export default async function ServiceDetails({ params }) {
           </div>
 
           {/* Image */}
-          <div className="relative h-64 sm:h-80 lg:h-96 rounded-3xl overflow-hidden shadow-2xl shadow-red-900/40 border-4 border-white/20">
+          <div className="relative h-64 sm:h-80 lg:h-96 rounded-3xl overflow-hidden shadow-sm shadow-red-900/40 border-2 border-white/20">
             <Image
               fill
               src={service?.image}
@@ -95,7 +96,7 @@ export default async function ServiceDetails({ params }) {
               <p className="text-red-600 text-xs font-bold uppercase tracking-widest mb-2">
                 Pricing
               </p>
-              <p className="text-4xl font-black text-gray-900 mb-1">
+              <p className="text-2xl font-black text-gray-900 mb-1">
                 ৳{service?.price?.basic}
               </p>
               <p className="text-gray-400 text-sm mb-6">
@@ -132,10 +133,8 @@ export default async function ServiceDetails({ params }) {
                 </div>
               </div>
             </div>
-
-            <button className="w-full bg-red-600 hover:bg-red-700 active:scale-95 transition-all duration-200 text-white font-black text-lg py-4 rounded-2xl shadow-lg shadow-red-300">
-              Book Now
-            </button>
+            {/* booking button and open modal */}
+            <Booking serviceData={service}/>
           </div>
         </div>
       </section>
