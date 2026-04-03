@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 export default function EmptyBooking() {
   const { userData } = useUserData();
   const router = useRouter();
-  
+
   return (
     <div className="flex flex-col items-center justify-center py-12 text-center">
       <h2 className="text-xl font-semibold text-gray-700">
@@ -20,7 +20,7 @@ export default function EmptyBooking() {
         className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
         onClick={() => router.push("/services?category=all")}
       >
-        {userData?.role === "client" ? "View Services" : "Book a Service"}
+        {userData?.role === "client" ? "Book a Service" : "View Services"}
       </button>
     </div>
   );
