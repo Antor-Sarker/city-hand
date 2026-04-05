@@ -1,11 +1,12 @@
+import { useUserData } from "@/context/authContex";
 import Link from "next/link";
 import {
-    IconArrowUpRight,
-    IconCalendar,
-    IconCheck,
-    IconClock,
-    IconConfirmed,
-    IconXCircle,
+  IconArrowUpRight,
+  IconCalendar,
+  IconCheck,
+  IconClock,
+  IconConfirmed,
+  IconXCircle,
 } from "./icons";
 
 const stats = [
@@ -53,9 +54,14 @@ const stats = [
 ];
 
 export default function StatisticsCard({ count }) {
+  const { userData } = useUserData();
   return stats?.map((data) => (
     <Link
-      href="/client/dashboard/my-booking"
+      href={
+        userData?.role === "client"
+          ? "/client/dashboard/my-booking"
+          : "/admin/dashboard/bookings"
+      }
       key={data?.label}
       className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-200"
     >

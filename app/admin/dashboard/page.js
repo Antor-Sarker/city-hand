@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 export default function Dashboard() {
   const [bookingData, setBookingData] = useState([]);
   const router = useRouter();
+  
   useEffect(() => {
     (async function () {
       try {
@@ -31,7 +32,7 @@ export default function Dashboard() {
   bookingData?.forEach((data) => {
     count[data.status] += 1;
   });
-  const bookings = bookingData.slice(0, 3);
+  const bookings = bookingData.slice(-3).toReversed();
 
   return (
     <div className="min-h-screen bg-gray-50/60 px-6 lg:px-8 py-8 max-w-6xl mx-auto">
@@ -56,7 +57,7 @@ export default function Dashboard() {
             View All <IconChevron size={13} />
           </button>
         </div>
-        <BookingTable bookings={bookings} />
+        <BookingTable bookings={bookings} setBookingData={setBookingData}/>
       </div>
     </div>
   );

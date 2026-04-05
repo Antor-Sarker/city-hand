@@ -1,8 +1,9 @@
 import { get5DigitId } from "@/utils/get5DigitId";
+import { useState } from "react";
+import EditBookingModal from "../service/editBookingModal";
+import BookingDetailsModal from "./bookingDetailsModal";
 import EmptyBooking from "./emptyBooking";
 import { EyeIcon, PencilIcon } from "./icons";
-import { useState } from "react";
-import BookingDetailsModal from "./bookingDetailsModal";
 
 const statusConfig = {
   pending: {
@@ -19,18 +20,32 @@ const statusConfig = {
   },
   cancelled: {
     label: "Cancelled",
-    className: "bg-gray-100 text-gray-500 border border-gray-200",
+    className: "bg-red-100 text-red-500 border border-gray-200",
   },
 };
 
-export default function BookingTable({ bookings }) {
-  const [detailsModalData,setDetailsModalData]=useState(null)
+export default function BookingTable({ bookings, setBookingData }) {
+  const [detailsModalData, setDetailsModalData] = useState(null);
+  const [editBookingData, setEditBookingData] = useState(null);
   return (
     <>
+      {/* view booking details */}
+      {detailsModalData && (
+        <BookingDetailsModal
+          data={detailsModalData}
+          setData={setDetailsModalData}
+        />
+      )}
 
-      {
-        detailsModalData && <BookingDetailsModal data={detailsModalData} setData={setDetailsModalData}/>
-      }
+      {/* edit booking  */}
+      {editBookingData && (
+        <EditBookingModal
+          data={editBookingData}
+          onClose={() => setEditBookingData(null)}
+          bookings={bookings}
+          setBookingData={setBookingData}
+        />
+      )}
       {/* Desktop Table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full">
@@ -86,13 +101,19 @@ export default function BookingTable({ bookings }) {
                 {/* actions */}
                 <td className="px-6 py-4 flex gap-1">
                   {/* View Button */}
-                  <button className="flex items-center gap-1 px-2.5 py-1 text-sm bg-violet-100 text-violet-600 rounded hover:bg-violet-200 transition cursor-pointer" onClick={()=>setDetailsModalData(booking)}>
+                  <button
+                    className="flex items-center gap-1 px-2.5 py-1 text-sm bg-violet-100 text-violet-600 rounded hover:bg-violet-200 transition cursor-pointer"
+                    onClick={() => setDetailsModalData(booking)}
+                  >
                     <EyeIcon />
                     View
                   </button>
 
                   {/* Edit Button */}
-                  <button className="flex items-center gap-1 px-2.5 py-1 text-sm bg-rose-100 text-rose-600 rounded hover:bg-rose-200 transition cursor-pointer" >
+                  <button
+                    className="flex items-center gap-1 px-2.5 py-1 text-sm bg-rose-100 text-rose-600 rounded hover:bg-rose-200 transition cursor-pointer"
+                    onClick={() => setEditBookingData(booking)}
+                  >
                     <PencilIcon />
                     Edit
                   </button>
@@ -136,13 +157,19 @@ export default function BookingTable({ bookings }) {
             {/* actions */}
             <div className="flex justify-between px-6 py-4 gap-1">
               {/* View Button */}
-              <button className="flex items-center gap-1 p-1 text-xs bg-violet-100 text-violet-600 rounded" onClick={()=>setDetailsModalData(booking)}>
+              <button
+                className="flex items-center gap-1 p-1 text-xs bg-violet-100 text-violet-600 rounded"
+                onClick={() => setDetailsModalData(booking)}
+              >
                 <EyeIcon />
                 View
               </button>
 
               {/* Edit Button */}
-              <button className="flex items-center gap-1 p-1 text-xs bg-rose-100 text-rose-600 rounded">
+              <button
+                className="flex items-center gap-1 p-1 text-xs bg-rose-100 text-rose-600 rounded"
+                onClick={() => setEditBookingData(booking)}
+              >
                 <PencilIcon />
                 Edit
               </button>

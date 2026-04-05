@@ -1,4 +1,10 @@
 const BookingDetailsModal = ({ data, setData }) => {
+  const statusColor = {
+    pending: "bg-yellow-100 text-yellow-800",
+    confirmed: "bg-blue-100 text-blue-800",
+    completed: "bg-green-100 text-green-800",
+    cancelled: "bg-red-100 text-red-800",
+  };
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
@@ -65,7 +71,9 @@ const BookingDetailsModal = ({ data, setData }) => {
           {/* Status Badge */}
           <div className="flex items-center gap-2">
             <span className="font-medium mr-2">Status:</span>
-            <span className="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700 capitalize">
+            <span
+              className={`px-3 py-1 text-xs rounded-full capitalize ${statusColor[data.status]}`}
+            >
               {data.status}
             </span>
           </div>

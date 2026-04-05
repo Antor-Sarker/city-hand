@@ -13,8 +13,8 @@ export default function Dashboard() {
   useEffect(() => {
     (async function () {
       try {
-        const res = await api.get("/api/user/bookings");
-        setBookingData(res?.data);
+        const res = await api.get("/api/booking");
+        setBookingData(res?.data?.toReversed());
       } catch (error) {
         console.log("booking data not found");
       }
@@ -31,7 +31,7 @@ export default function Dashboard() {
   bookingData?.forEach((data) => {
     count[data.status] += 1;
   });
-  const bookings = bookingData.slice(0, 3);
+  const bookings = bookingData.slice(0,3);
 
   return (
     <div className="min-h-screen bg-gray-50/60 px-6 lg:px-8 py-8 max-w-6xl mx-auto">
@@ -56,7 +56,7 @@ export default function Dashboard() {
             View All <IconChevron size={13} />
           </button>
         </div>
-        <BookingTable bookings={bookings} />
+        <BookingTable bookings={bookings} setBookingData={setBookingData} />
       </div>
     </div>
   );

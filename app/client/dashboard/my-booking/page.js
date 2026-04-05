@@ -9,8 +9,8 @@ export default function MyBookings() {
   useEffect(() => {
     (async function () {
       try {
-        const res = await api.get("/api/user/bookings");
-        setBookingData(res?.data);
+        const res = await api.get("/api/booking");
+        setBookingData(res?.data?.toReversed());
       } catch (error) {
         console.log("booking data not found");
       }
@@ -21,7 +21,7 @@ export default function MyBookings() {
     <div className="min-h-screen bg-gray-50/60 px-6 lg:px-8 py-8 max-w-6xl mx-auto">
       {/* Bookings Table */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <BookingTable bookings={bookingData} />
+        <BookingTable bookings={bookingData} setBookingData={setBookingData}/>
       </div>
     </div>
   );

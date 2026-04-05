@@ -1,6 +1,6 @@
+import { useUserData } from "@/context/authContex";
 import api from "@/lib/api";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDown, IconCalendar, IconXCircle } from "../dashboard/icons";
 
 const TIME_SLOTS = [
@@ -72,61 +72,86 @@ const FocusTextarea = ({ value, onChange, placeholder }) => {
   );
 };
 
-export default function BookingModal({ serviceData, setIsOpenModal }) {
+export default function EditBookingModal({
+  data,
+  onClose,
+  bookings,
+  setBookingData,
+}) {
+  const [plans, setPlans] = useState(null);
   const [form, setForm] = useState({
-    plan: "",
-    bookingDate: "",
-    bookingTime: "",
-    phone: "",
-    address: "",
-    notes: "",
+    plan: data?.plan,
+    price: data?.price,
+    bookingDate: data?.bookingDate,
+    bookingTime: data?.bookingTime,
+    phone: data?.phone,
+    address: data?.address,
+    notes: data?.notes,
+    status: data?.status,
   });
+
   const [error, setError] = useState("");
   const errorRef = useRef(null);
-  const router = useRouter();
+  const { userData } = useUserData();
 
-  const plans = [
-    { value: "", label: "-- Select a plan --" },
-    {
-      value: `basic ${serviceData?.price?.basic}`,
-      label: `basic plan — ৳${serviceData?.price?.basic}`,
-    },
-    {
-      value: `standard ${serviceData?.price?.standard}`,
-      label: `standard plan — ৳${serviceData?.price?.standard}`,
-    },
-    {
-      value: `premium ${serviceData?.price?.premium}`,
-      label: `premium plan — ৳${serviceData?.price?.premium}`,
-    },
-  ];
+  useEffect(() => {
+    (async function () {
+      try {
+        const serviceData = await api.get(`/api/service/${data?.serviceId}`);
+        setPlans([
+          `basic ${serviceData?.price?.basic}`,
+          `standard ${serviceData?.price?.standard}`,
+          `premium ${serviceData?.price?.premium}`,
+        ]);
+      } catch (error) {
+        console.log("fetch service error ", error);
+      }
+    })();
+  }, [data?.serviceId]);
 
-  const set = (key) => (e) =>
-    setForm((prevState) => ({ ...prevState, [key]: e.target.value }));
+  const set = (key) => (e) => {
+    if (key === "plan") {
+      setForm((prevState) => ({
+        ...prevState,
+        plan: e.target.value.split(" ")[0],
+        price: e.target.value.split(" ")[1],
+      }));
+    } else setForm((prevState) => ({ ...prevState, [key]: e.target.value }));
+  };
 
   async function handelSubmit(e) {
     e.preventDefault();
 
-    const data = {
+    const updateBooking = {
       ...form,
-      plan: form?.plan?.split(" ")[0],
-      price: Number(form?.plan?.split(" ")[1]),
-      serviceId: serviceData?._id,
-      serviceName: serviceData?.title,
-      serviceCategory: serviceData?.categoryLabel,
+      plan: form?.plan,
+      price: Number(form?.price),
+      serviceId: data?.serviceId,
+      serviceName: data?.serviceName,
+      serviceCategory: data?.serviceCategory,
     };
 
     try {
-      const res = await api.post("/api/booking", data);
-      if (res.status === 201) router.push("/client/dashboard");
-    } catch (error) {
-      if (error.response.status === 409) {
-        setError(error.response.data.message);
-        errorRef?.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
+      const res = await api.patch(
+        `/api/booking/update/${data?._id}`,
+        updateBooking,
+      );
+      if (res.success) {
+        const updatedBooking = res.data;
+
+        const updatedBookings = bookings.map((booking) => {
+          if (booking._id === updatedBooking._id) return updatedBooking;
+          else return booking;
         });
+        setBookingData(updatedBookings);
+        onClose();
       }
+    } catch (error) {
+      setError("please try again");
+      errorRef?.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
   }
 
@@ -144,13 +169,13 @@ export default function BookingModal({ serviceData, setIsOpenModal }) {
             </div>
             <div>
               <p className="text-white font-semibold text-base leading-tight">
-                Book a Service
+                Edit Booking
               </p>
-              <p className="text-white/70 text-xs">Fill in the details below</p>
             </div>
           </div>
           <button
-            onClick={() => setIsOpenModal(false)}
+            type="button"
+            onClick={onClose}
             className="w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer border-0 outline-none"
           >
             <IconXCircle
@@ -169,7 +194,7 @@ export default function BookingModal({ serviceData, setIsOpenModal }) {
               </label>
 
               <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2.5 text-sm font-medium text-red-700">
-                {serviceData?.title}
+                {data?.serviceName}
               </div>
             </div>
             <div>
@@ -178,23 +203,46 @@ export default function BookingModal({ serviceData, setIsOpenModal }) {
               </label>
 
               <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2.5 text-sm font-medium text-red-700">
-                {serviceData?.categoryLabel}
+                {data?.serviceCategory}
               </div>
             </div>
           </div>
 
-          {/* Plan */}
-          <div ref={errorRef}>
-            <label className="block text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1.5">
-              Service Category
-            </label>
-            <FocusSelect value={form?.plan} onChange={set("plan")}>
-              {plans?.map((p) => (
-                <option key={p.value} value={p.value}>
-                  {p.label}
-                </option>
-              ))}
-            </FocusSelect>
+          {/* plan + status */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Plan */}
+            <div ref={errorRef}>
+              <label className="block text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1.5">
+                Plan
+              </label>
+              <FocusSelect
+                value={`${form?.plan} ${form?.price}`}
+                onChange={set("plan")}
+              >
+                {plans?.map((plan) => (
+                  <option key={plan} value={plan}>
+                    {plan}
+                  </option>
+                ))}
+              </FocusSelect>
+            </div>
+            {/* status */}
+            <div>
+              <label className="block text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1.5">
+                status
+              </label>
+              <FocusSelect value={form?.status} onChange={set("status")}>
+                <option value="pending">{"pending"}</option>
+                <option value="cancelled">{"cancelled"}</option>
+
+                {userData?.role === "admin" && (
+                  <>
+                    <option value="confirmed">{"confirmed"}</option>
+                    <option value="completed">{"completed"}</option>
+                  </>
+                )}
+              </FocusSelect>
+            </div>{" "}
           </div>
 
           {/* error message for already booking */}
@@ -274,7 +322,7 @@ export default function BookingModal({ serviceData, setIsOpenModal }) {
         {/* Footer */}
         <div className="px-5 py-4 border-t border-gray-100 flex items-center justify-end gap-3 flex-wrap sticky bottom-0 bg-white rounded-b-2xl">
           <button
-            onClick={() => setIsOpenModal(false)}
+            onClick={onClose}
             className="px-5 py-2.5 border border-gray-200 rounded-lg bg-transparent hover:bg-gray-50 text-sm font-medium text-gray-500 transition-colors duration-200 cursor-pointer"
           >
             Cancel
@@ -283,7 +331,7 @@ export default function BookingModal({ serviceData, setIsOpenModal }) {
             type="submit"
             className="px-6 py-2.5 bg-linear-to-br from-red-700 to-red-500 hover:from-red-800 hover:to-red-600 text-white text-sm font-semibold rounded-lg flex items-center gap-2 transition-all duration-200 cursor-pointer border-0 outline-none"
           >
-            Confirm Booking
+            Update
           </button>
         </div>
       </form>
