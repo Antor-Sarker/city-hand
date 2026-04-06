@@ -25,7 +25,9 @@ export default function UserMenu({ userData, logOut }) {
         <div className="w-7 h-7 rounded-full bg-red-700 flex items-center justify-center shrink-0">
           <UserIcon />
         </div>
-        <span className="text-[13px] font-medium text-gray-800">akash</span>
+        <span className="text-[13px] font-medium text-gray-800">
+          {userData.name.split(" ")[0]}
+        </span>
         <svg
           className="w-3.5 h-3.5 text-gray-400"
           viewBox="0 0 24 24"
