@@ -1,10 +1,10 @@
 import { get5DigitId } from "@/utils/get5DigitId";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import EditBookingModal from "../service/editBookingModal";
 import BookingDetailsModal from "./bookingDetailsModal";
 import EmptyBooking from "./emptyBooking";
-import { EyeIcon, PencilIcon } from "./icons";
+import { EyeIcon, IconCalendar, PencilIcon } from "./icons";
 
 const statusConfig = {
   pending: {
@@ -30,6 +30,8 @@ export default function BookingTable({ bookings, setBookingData }) {
   const [editBookingData, setEditBookingData] = useState(null);
   const [filteredBookings, setFilteredBookings] = useState(null);
   const searchParam = useSearchParams();
+  const pathName = usePathname();
+  const router = useRouter();
   const status = searchParam.get("status") ?? "all";
 
   useEffect(() => {
@@ -39,6 +41,12 @@ export default function BookingTable({ bookings, setBookingData }) {
         : bookings.filter((booking) => booking.status === status);
     setFilteredBookings(data);
   }, [bookings, status]);
+
+  // bookings filter
+  function handelFilter(e) {
+    const filterBy = e.target.value;
+    router.push(pathName + `?status=${filterBy}`);
+  }
 
   return (
     <>
@@ -61,6 +69,32 @@ export default function BookingTable({ bookings, setBookingData }) {
       )}
       {/* Desktop Table */}
       <div className="hidden md:block overflow-x-auto">
+        {searchParam.get("status") && (
+          <div className="flex items-center justify-between px-6 py-5 border-b border-gray-50">
+            <div className="flex items-center gap-2">
+              <IconCalendar className="text-red-600" />
+              <h3 className="text-base font-bold text-gray-900">Bookings</h3>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-500 hidden sm:block">
+                Filter by:
+              </span>
+              <select
+                value={status}
+                className="text-sm border border-gray-200 rounded-xl px-3 py-2 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-400"
+                onChange={handelFilter}
+              >
+                <option>all</option>
+                <option>pending</option>
+                <option>confirmed</option>
+                <option>completed</option>
+                <option>cancelled</option>
+              </select>
+            </div>
+          </div>
+        )}
+
         <table className="w-full">
           <thead>
             <tr className="bg-gray-50/70 border-b border-gray-100">
@@ -139,6 +173,31 @@ export default function BookingTable({ bookings, setBookingData }) {
 
       {/* Mobile Cards */}
       <div className="md:hidden divide-y divide-gray-50">
+        {searchParam.get("status") && (
+          <div className="flex items-center justify-between px-6 py-5 border-b border-gray-50">
+            <div className="flex items-center gap-2">
+              <IconCalendar className="text-red-600" />
+              <h3 className="text-base font-bold text-gray-900">Bookings</h3>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-500 hidden sm:block">
+                Filter by:
+              </span>
+              <select
+                value={status}
+                className="text-sm border border-gray-200 rounded-xl px-3 py-2 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-400"
+                onChange={handelFilter}
+              >
+                <option>all</option>
+                <option>pending</option>
+                <option>confirmed</option>
+                <option>completed</option>
+                <option>cancelled</option>
+              </select>
+            </div>
+          </div>
+        )}
         {filteredBookings?.map((booking) => (
           <div
             key={booking?._id}

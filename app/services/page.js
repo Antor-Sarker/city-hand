@@ -170,7 +170,6 @@ export default async function Services({ searchParams }) {
                   <option>Most Popular</option>
                   <option>Price: Low to High</option>
                   <option>Price: High to Low</option>
-                  <option>Highest Rated</option>
                 </select>
               </div>
             </div>
