@@ -1,5 +1,6 @@
 import { get5DigitId } from "@/utils/get5DigitId";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import EditBookingModal from "../service/editBookingModal";
 import BookingDetailsModal from "./bookingDetailsModal";
 import EmptyBooking from "./emptyBooking";
@@ -27,6 +28,18 @@ const statusConfig = {
 export default function BookingTable({ bookings, setBookingData }) {
   const [detailsModalData, setDetailsModalData] = useState(null);
   const [editBookingData, setEditBookingData] = useState(null);
+  const [filteredBookings, setFilteredBookings] = useState(null);
+  const searchParam = useSearchParams();
+  const status = searchParam.get("status") ?? "all";
+
+  useEffect(() => {
+    const data =
+      status === "all"
+        ? bookings
+        : bookings.filter((booking) => booking.status === status);
+    setFilteredBookings(data);
+  }, [bookings, status]);
+
   return (
     <>
       {/* view booking details */}
@@ -65,7 +78,7 @@ export default function BookingTable({ bookings, setBookingData }) {
           </thead>
           {/* bookins data */}
           <tbody className="divide-y divide-gray-50">
-            {bookings?.map((booking) => (
+            {filteredBookings?.map((booking) => (
               <tr
                 key={booking?._id}
                 className="hover:bg-red-50/30 transition-colors group"
@@ -126,7 +139,7 @@ export default function BookingTable({ bookings, setBookingData }) {
 
       {/* Mobile Cards */}
       <div className="md:hidden divide-y divide-gray-50">
-        {bookings?.map((booking) => (
+        {filteredBookings?.map((booking) => (
           <div
             key={booking?._id}
             className="px-5 py-4 hover:bg-red-50/20 transition-colors"

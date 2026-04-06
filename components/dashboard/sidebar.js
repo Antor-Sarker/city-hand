@@ -15,7 +15,7 @@ const clientNavLinks = [
   { label: "Dashboard", href: "/client/dashboard", icon: IconGrid },
   {
     label: "My Bookings",
-    href: "/client/dashboard/my-booking",
+    href: "/client/dashboard/my-booking?status=all",
     icon: IconBooking,
   },
   {
@@ -29,7 +29,7 @@ const adminNavLinks = [
   { label: "Dashboard", href: "/admin/dashboard", icon: IconGrid },
   {
     label: "Manage Bookings",
-    href: "/admin/dashboard/bookings",
+    href: "/admin/dashboard/bookings?status=all",
     icon: IconBooking,
   },
   {

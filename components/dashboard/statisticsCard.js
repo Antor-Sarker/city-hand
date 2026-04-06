@@ -59,8 +59,8 @@ export default function StatisticsCard({ count }) {
     <Link
       href={
         userData?.role === "client"
-          ? "/client/dashboard/my-booking"
-          : "/admin/dashboard/bookings"
+          ? `/client/dashboard/my-booking?status=${data.name === "total" ? "all" : data.name}`
+          : `/admin/dashboard/bookings?status=${data.name === "total" ? "all" : data.name}`
       }
       key={data?.label}
       className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-200"

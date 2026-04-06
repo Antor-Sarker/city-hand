@@ -51,7 +51,7 @@ export default function Dashboard() {
           </div>
           <button
             className="text-xs font-semibold text-red-600 hover:text-red-700 flex items-center gap-1 transition-colors cursor-pointer"
-            onClick={() => router.push("/client/dashboard/my-booking")}
+            onClick={() => router.push("/client/dashboard/my-booking?status=all")}
           >
             View All <IconChevron size={13} />
           </button>
