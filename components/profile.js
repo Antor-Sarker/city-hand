@@ -22,6 +22,7 @@ function InfoRow({ icon, label, value }) {
 export default function Profile() {
   const [profileData, setProfileData] = useState(null);
   const [activeTab, setActiveTab] = useState("Overview");
+  const [newData, setNewData] = useState(null);
 
   useEffect(() => {
     try {
@@ -29,12 +30,35 @@ export default function Profile() {
         const res = await api.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/profile`,
         );
-        if (res.success) setProfileData(res.data);
+        if (res.success) {
+          setNewData({
+            name: res?.data?.name,
+            email: res?.data?.email,
+            phone: res?.data?.phone,
+            address: res?.data?.address,
+          });
+          setProfileData(res?.data);
+        }
       })();
     } catch (error) {
       console.log("profile data not found");
     }
   }, []);
+
+  async function handelUpdate() {
+    try {
+      const res = await api.patch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/profile`,
+        newData,
+      );
+      if (res.success) {
+        setProfileData(res.data);
+        setActiveTab("Overview");
+      }
+    } catch (error) {
+      console.log("profile update error");
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
@@ -81,7 +105,7 @@ export default function Profile() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-all ${
+              className={`px-5 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-all cursor-pointer ${
                 activeTab === tab
                   ? "border-red-600 text-red-600"
                   : "border-transparent text-gray-400 hover:text-gray-600"
@@ -198,24 +222,28 @@ export default function Profile() {
               {[
                 {
                   label: "Full Name",
+                  name: "name",
                   defaultValue: profileData?.name,
                   type: "text",
                   span: false,
                 },
                 {
                   label: "Email Address",
+                  name: "email",
                   defaultValue: profileData?.email,
                   type: "email",
                   span: false,
                 },
                 {
                   label: "Phone",
+                  name: "phone",
                   defaultValue: profileData?.phone,
                   type: "tel",
                   span: false,
                 },
                 {
                   label: "Address",
+                  name: "address",
                   defaultValue: profileData?.address,
                   type: "text",
                   span: false,
@@ -230,8 +258,15 @@ export default function Profile() {
                   </label>
                   <input
                     type={field.type}
+                    name={field.name}
                     defaultValue={field.defaultValue}
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 font-medium bg-gray-50 focus:outline-none focus:border-red-400 focus:ring-2 focus:ring-red-100 transition-all"
+                    onChange={(e) =>
+                      setNewData({
+                        ...newData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
                   />
                 </div>
               ))}
@@ -251,7 +286,10 @@ export default function Profile() {
             </div>
 
             <div className="flex gap-3 mt-6">
-              <button className="px-6 py-2.5 rounded-xl bg-red-600 text-white text-sm font-bold hover:bg-red-700 transition-all shadow-md shadow-red-100">
+              <button
+                className="px-6 py-2.5 rounded-xl bg-red-600 text-white text-sm font-bold hover:bg-red-700 transition-all shadow-md shadow-red-100"
+                onClick={handelUpdate}
+              >
                 Save Changes
               </button>
               <button
