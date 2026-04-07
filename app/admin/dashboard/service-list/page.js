@@ -22,9 +22,7 @@ export default function ServiceManagement() {
     })();
   }, []);
 
-  console.log(services);
-
-  async function handelFilterByCategory(e) {
+  function handelFilterByCategory(e) {
     const category = e.target.value;
     const filteredData =
       category === "all"
@@ -33,12 +31,22 @@ export default function ServiceManagement() {
     setFilteredService(filteredData);
   }
 
-  async function handelFilterByStatus(e) {
+  function handelFilterByStatus(e) {
     const status = e.target.value;
     const filteredData =
       status === "all"
         ? services
         : services.filter((service) => service.status === status);
+    setFilteredService(filteredData);
+  }
+
+  function handelSearch(e) {
+    const query = e.target.value;
+    const filteredData = services.filter(
+      (service) =>
+        service.title.toLowerCase().includes(query.toLowerCase()) ||
+        service.description.toLowerCase().includes(query.toLowerCase()),
+    );
     setFilteredService(filteredData);
   }
 
@@ -93,6 +101,7 @@ export default function ServiceManagement() {
               type="text"
               placeholder="Search services..."
               className="w-full pl-8.5 pr-3 py-2.5 text-[13.5px] rounded-lg border border-gray-200 bg-gray-50 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400/30 focus:border-red-400 focus:bg-white transition"
+              onChange={handelSearch}
             />
           </div>
 
