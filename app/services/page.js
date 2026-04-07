@@ -50,7 +50,7 @@ function ServiceCard({ service }) {
 }
 
 export default async function Services({ searchParams }) {
-  let services = [];
+    let services = [];
   let category = null;
 
   try {
