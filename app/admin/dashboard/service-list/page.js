@@ -8,11 +8,14 @@ export default function ServiceManagement() {
 
   const [showModal, setShowModal] = useState(false);
 
+  const [filteredService, setFilteredService] = useState(null);
+
   useEffect(() => {
     (async function () {
       try {
         const res = await api.get("/api/service");
         setServices(res);
+        setFilteredService(res);
       } catch (error) {
         console.log(error, " failed to fetch services data");
       }
@@ -20,6 +23,24 @@ export default function ServiceManagement() {
   }, []);
 
   console.log(services);
+
+  async function handelFilterByCategory(e) {
+    const category = e.target.value;
+    const filteredData =
+      category === "all"
+        ? services
+        : services.filter((service) => service.category === category);
+    setFilteredService(filteredData);
+  }
+
+  async function handelFilterByStatus(e) {
+    const status = e.target.value;
+    const filteredData =
+      status === "all"
+        ? services
+        : services.filter((service) => service.status === status);
+    setFilteredService(filteredData);
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
@@ -74,14 +95,22 @@ export default function ServiceManagement() {
               className="w-full pl-8.5 pr-3 py-2.5 text-[13.5px] rounded-lg border border-gray-200 bg-gray-50 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400/30 focus:border-red-400 focus:bg-white transition"
             />
           </div>
+
           {/* Selects row */}
           <div className="w-full md:w-auto flex justify-between gap-2 flex-wrap sm:flex-nowrap">
             {/* Category filter */}
             <div className="relative">
-              <select className="appearance-none pl-3 pr-8 py-2.5 text-[13.5px] rounded-lg border border-gray-200 bg-gray-50 text-gray-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-400/30 focus:border-red-400 focus:bg-white transition min-w-32">
-                <option value="all">All categories</option>
-                <option value="design">Design</option>
-                <option value="dev">Development</option>
+              <select
+                className="appearance-none pl-3 pr-8 py-2.5 text-[13.5px] rounded-lg border border-gray-200 bg-gray-50 text-gray-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-400/30 focus:border-red-400 focus:bg-white transition min-w-32"
+                onChange={handelFilterByCategory}
+              >
+                <option value="all">All Categories</option>
+                <option value="appliance">Appliance Repair</option>
+                <option value="electrical">Electrical Services</option>
+                <option value="plumbing">Plumbing Services</option>
+                <option value="cleaning">Cleaning Services</option>
+                <option value="installation">Installation & Security</option>
+                <option value="moving">Moving & Relocation</option>
               </select>
               <svg
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none"
@@ -97,9 +126,13 @@ export default function ServiceManagement() {
                 />
               </svg>
             </div>
+
             {/* Status filter */}
             <div className="relative">
-              <select className="appearance-none pl-3 pr-8 py-2.5 text-[13.5px] rounded-lg border border-gray-200 bg-gray-50 text-gray-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-400/30 focus:border-red-400 focus:bg-white transition min-w-30">
+              <select
+                className="appearance-none pl-3 pr-8 py-2.5 text-[13.5px] rounded-lg border border-gray-200 bg-gray-50 text-gray-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-400/30 focus:border-red-400 focus:bg-white transition min-w-30"
+                onChange={handelFilterByStatus}
+              >
                 <option value="all">All status</option>
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
@@ -141,7 +174,7 @@ export default function ServiceManagement() {
 
               {/* Table Body */}
               <tbody className="divide-y divide-gray-50">
-                {services?.length === 0 ? (
+                {filteredService?.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="text-center py-16 text-gray-400">
                       <div className="flex flex-col items-center gap-2">
@@ -163,7 +196,7 @@ export default function ServiceManagement() {
                     </td>
                   </tr>
                 ) : (
-                  services?.map((service) => (
+                  filteredService?.map((service) => (
                     <tr
                       key={service._id}
                       className={`group transition-colors duration-100 bg-white hover:bg-gray-100`}
