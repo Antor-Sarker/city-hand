@@ -1,7 +1,7 @@
 "use client";
 import BookingTable from "@/components/dashboard/bookingTable";
 import api from "@/lib/api";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 export default function MyBookings() {
   const [bookingData, setBookingData] = useState([]);
@@ -21,7 +21,16 @@ export default function MyBookings() {
     <div className="min-h-screen bg-gray-50/60 px-6 lg:px-8 py-8 max-w-6xl mx-auto">
       {/* Bookings Table */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <BookingTable bookings={bookingData} setBookingData={setBookingData}/>
+        <Suspense
+          fallback={
+            <div className="text-center text-xl text-red-400">loading...</div>
+          }
+        >
+          <BookingTable
+            bookings={bookingData}
+            setBookingData={setBookingData}
+          />
+        </Suspense>
       </div>
     </div>
   );

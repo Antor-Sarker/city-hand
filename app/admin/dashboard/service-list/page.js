@@ -1,14 +1,28 @@
 "use client";
+
+import AddServiceModal from "@/components/dashboard/addServiceModal";
 import api from "@/lib/api";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function ServiceManagement() {
   const [services, setServices] = useState([]);
-
-  const [showModal, setShowModal] = useState(false);
-
   const [filteredService, setFilteredService] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [addServiceData, setAddServiceData] = useState({
+    title: "",
+    category: "",
+    categoryLabel: "",
+    price: {
+      basic: null,
+      standard: null,
+      premium: null,
+    },
+    image: "",
+    status: "",
+    description: "",
+    serviceInclusions: "",
+  });
 
   useEffect(() => {
     (async function () {
@@ -50,6 +64,55 @@ export default function ServiceManagement() {
     setFilteredService(filteredData);
   }
 
+  async function handelAddService(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("title", addServiceData.title);
+    formData.append("category", addServiceData.category);
+    formData.append("categoryLabel", addServiceData.categoryLabel);
+    formData.append("price", JSON.stringify(addServiceData.price));
+    formData.append("status", addServiceData.status);
+    formData.append("description", addServiceData.description);
+    formData.append(
+      "serviceInclusions",
+      JSON.stringify(addServiceData.serviceInclusions.split(".")),
+    );
+    formData.append("image", addServiceData.image);
+
+    try {
+      const res = await api.post("/api/service", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (res.data.success) {
+        setServices([res.data.data, ...services]);
+        setFilteredService([res.data.data, ...filteredService]);
+        setAddServiceData({
+          title: "",
+          category: "",
+          categoryLabel: "",
+          price: {
+            basic: null,
+            standard: null,
+            premium: null,
+          },
+          image: "",
+          status: "",
+          description: "",
+          serviceInclusions: "",
+        });
+
+        setShowAddModal(false);
+      }
+    } catch (error) {
+      alert("Server error. please try again");
+      console.log(error.response.data, "service insert failed");
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -59,7 +122,7 @@ export default function ServiceManagement() {
             Manage <span className="text-red-600">Services</span>
           </h1>
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() => setShowAddModal(true)}
             className="flex items-center gap-1 bg-red-600 hover:bg-red-700 active:scale-95 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-md shadow-red-200 transition-all duration-150 cursor-pointer"
           >
             <svg
@@ -216,7 +279,7 @@ export default function ServiceManagement() {
                           <Image
                             width={20}
                             height={16}
-                            src={service.image}
+                            src={service?.image.url ?? service?.image}
                             alt={service.title}
                             className="w-20 h-16 object-contain"
                           />
@@ -234,7 +297,7 @@ export default function ServiceManagement() {
                       <td className=" px-5 py-3.5">
                         <span className=" text-red-600">
                           ৳
-                          {`${service?.price.basic} - ${service?.price.standard}`}
+                          {`${service?.price?.basic} - ${service?.price?.standard}`}
                         </span>
                       </td>
 
@@ -310,97 +373,14 @@ export default function ServiceManagement() {
         </div>
       </div>
 
-      {/* ── ADD SERVICE MODAL ── */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-            {/* Modal header */}
-            <div className="bg-red-600 px-6 py-4 flex items-center justify-between">
-              <h2 className="text-white font-bold text-lg">Add New Service</h2>
-              <button
-                onClick={() => setShowModal(false)}
-                className="text-red-200 hover:text-white transition-colors"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2.5}
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            {/* Modal body */}
-            <div className="px-6 py-5 space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wider">
-                  Service Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. Logo Design"
-                  value={newService.name}
-                  onChange={(e) =>
-                    setNewService({ ...newService, name: e.target.value })
-                  }
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent bg-gray-50"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wider">
-                  Price (৳) <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="number"
-                  placeholder="e.g. 3500"
-                  value={newService.price}
-                  onChange={(e) =>
-                    setNewService({ ...newService, price: e.target.value })
-                  }
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent bg-gray-50"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wider">
-                  Image URL <span className="text-gray-400">(optional)</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="https://..."
-                  value={newService.image}
-                  onChange={(e) =>
-                    setNewService({ ...newService, image: e.target.value })
-                  }
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent bg-gray-50"
-                />
-              </div>
-            </div>
-
-            {/* Modal footer */}
-            <div className="px-6 pb-5 flex gap-3">
-              <button
-                onClick={() => setShowModal(false)}
-                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-all active:scale-95"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleAddService}
-                disabled={!newService.name || !newService.price}
-                className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white text-sm font-semibold transition-all active:scale-95 shadow-md shadow-red-100"
-              >
-                Add Service
-              </button>
-            </div>
-          </div>
-        </div>
+      {/* ── ADD SERVICE MODAL ──*/}
+      {showAddModal && (
+        <AddServiceModal
+          addServiceData={addServiceData}
+          setShowAddModal={setShowAddModal}
+          setAddServiceData={setAddServiceData}
+          handelAddService={handelAddService}
+        />
       )}
     </div>
   );

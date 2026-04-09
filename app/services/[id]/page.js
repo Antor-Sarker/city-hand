@@ -42,7 +42,9 @@ export default async function ServiceDetails({ params }) {
           <div className="relative h-64 sm:h-80 lg:h-96 rounded-3xl overflow-hidden shadow-sm shadow-red-900/40 border-2 border-white/20">
             <Image
               fill
-              src={service?.image}
+              sizes="100vw"
+              priority
+              src={service?.image?.url ?? service?.image}
               alt={service?.title}
               className="w-full h-full object-cover"
             />
@@ -66,7 +68,7 @@ export default async function ServiceDetails({ params }) {
             </div>
             <ul className="space-y-3">
               {service?.serviceInclusions?.map((item) => (
-                <li key={item} className="flex items-start gap-3">
+                <li key={crypto.randomUUID()} className="flex items-start gap-3">
                   <span className="mt-0.5 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center *:shrink-0">
                     <svg
                       className="w-3 h-3 text-white"

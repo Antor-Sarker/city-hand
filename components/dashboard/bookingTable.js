@@ -1,3 +1,4 @@
+"use client"
 import { get5DigitId } from "@/utils/get5DigitId";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
