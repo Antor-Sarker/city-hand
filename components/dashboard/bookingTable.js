@@ -252,7 +252,7 @@ export default function BookingTable({ bookings, setBookingData }) {
       </div>
 
       {/* when booking is empty */}
-      {bookings?.length === 0 && <EmptyBooking />}
+      {filteredBookings?.length === 0 && <EmptyBooking status={status}/>}
     </>
   );
 }
